@@ -1,56 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SolidWorkshop.Interfaces;
 
 namespace SolidWorkshop
 {
-    public class Service
+    public class Service : IService<Entity>
     {
-        private const string _connectionString = "[connectionString]";
-        protected readonly SqlConnection _sqlConnection;
+        protected readonly IDbConnector<Entity> _SqlConnector;
 
-        public Service()
+        public Service(IDbConnector<Entity> connector)
         {
-            //_sqlConnection = new SqlConnection(_connectionString);
+            _SqlConnector = connector;
         }
 
-        public Entity Save(Entity entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Save(Entity entity)
         {
             try
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        _sqlConnection.Open();
-                        //perform Save
-                        _sqlConnection.Close();
-                        return entity;
-                    }
-                    catch
-                    {
-                        if (i == 2)
-                            throw;
-                    }
-                }
-                throw new Exception("Ex");
+                _SqlConnector.Save(entity);          
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                throw ex;
             }
         }
 
-        public List<Entity> ReadAll()
+        /// <summary>
+        /// Returns an Entities from Repository.
+        /// </summary>
+        /// <returns> Returns an <see cref="IEnumerable<T>Entity</T>"/>. </returns>
+        public IEnumerable<Entity> ReadAll()
         {
-            _sqlConnection.Open();
-            //perform Save
-            _sqlConnection.Close();
-            return new List<Entity>();
+            var entitySet = _SqlConnector.GetAll();
+            return entitySet;
         }
-
     }
 }
