@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SolidWorkshop
 {
     internal abstract class CustomRepositoryBase<TEntity> : IStorage, IRepository<TEntity> where TEntity : class
-    {
+    
         protected readonly IEntitySet<TEntity> entitySet;
         protected readonly IConnectionManager connectionManager;
 
