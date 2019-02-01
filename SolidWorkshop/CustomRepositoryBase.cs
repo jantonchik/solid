@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SolidWorkshop
 {
-    internal abstract class CustomRepositoryBase<TEntity> : IStorage, IRepository<TEntity>
+    internal abstract class CustomRepositoryBase<TEntity> : IStorage, IRepository<TEntity> where TEntity : class
     {
         protected readonly IEntitySet<TEntity> entitySet;
         protected readonly IConnectionManager connectionManager;
@@ -16,7 +16,7 @@ namespace SolidWorkshop
             this.entitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
             this.connectionManager = connectionManager ?? throw new ArgumentNullException(nameof(connectionManager));
         }
-        
+
         public abstract Task<TEntity> CreateAsync(TEntity entity);
         public abstract Task<TEntity> DeleteAsync(int entityId);
         public abstract Task<IEntitySet<TEntity>> GetAllAsync();
