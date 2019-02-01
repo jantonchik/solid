@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace SolidWorkshop
 {
-    public abstract class Entity
+    public class CustomEntity : Entity
     {
-        private int id;
-
-        protected Entity(int id)
+        public CustomEntity(int id) : base(id)
         {
-            this.id = id;
         }
 
-        public int Id { get; }
+        public DateTime CreatedDate { get; set; }
     }
 }
